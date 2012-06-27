@@ -1,0 +1,10 @@
+{
+	"require": {
+		"UnionOfRAD/lithium": "dev-master",
+	},
+
+	"config": {
+		"bin-dir": "_build/bin/",
+		"vendor-dir": "libraries/"
+	}
+}
