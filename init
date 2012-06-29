@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Loading bootstrap resources..."
+git clone git@github.com:uor/bootstrap.git _bootstrap
+DIR="$(pwd)/_bootstrap"
+
+if [[ "$(/usr/bin/env git remote 2> /dev/null)" ]]; then
+	echo "Initializing existing project..."
+	$DIR/scripts/existing.sh $DIR
+else
+	echo "Initializing new project..."
+	$DIR/scripts/new.sh $DIR
+fi
+
+echo ""
+echo "Installation complete. Checking virtual machine system..."
+echo ""
+
+$DIR/scripts/vm.sh $DIR
+
+echo "Cleaning up..."
+rm -rf ./_bootstrap
+
+echo "Complete."
+echo ""
