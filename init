@@ -1,9 +1,8 @@
 #!/bin/bash
 
 echo "Loading bootstrap resources..."
-# git clone git@github.com:uor/bootstrap.git _bootstrap
-# DIR="$(pwd)/_bootstrap"
-DIR="/Users/nate/Projects/bootstrap"
+git clone git@github.com:uor/bootstrap.git _bootstrap
+DIR="$(pwd)/_bootstrap"
 
 if [[ "$(/usr/bin/env git remote 2> /dev/null)" ]]; then
 	echo "Initializing existing project..."

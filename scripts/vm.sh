@@ -17,8 +17,8 @@ if [[ "$(which vagrant)" != "" && "$(which VBoxManage)" != "" ]]; then
 		echo "You may start the project by running \`vagrant up\` and browsing to http://localhost:8081 (port mapping can be changed in ./Vagrantfile)."
 
 		echo ""
-		echo "Press enter to launch the project now..."
-		read i
+		read -rsn 1 -p "Press enter to launch the project now..." < /dev/tty
+		echo ""
 
 		vagrant up
 		open "http://localhost:8081"
