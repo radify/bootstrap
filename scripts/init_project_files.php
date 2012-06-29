@@ -5,6 +5,7 @@ require "classes/uor/bootstrap/GitIgnore.php";
 
 use uor\bootstrap\Dependencies;
 
+$stdIn = fopen("/dev/tty", "r");
 $gitIgnore = new uor\bootstrap\GitIgnore($argv[1]);
 
 $gitIgnore->add(array(
@@ -28,7 +29,7 @@ fwrite(STDOUT, "Add dependencies:");
 foreach (uor\bootstrap\Dependencies::all() as $title => $value) {
 	fwrite(STDOUT, "{$title} [y/n]: ");
 
-	if (trim(strtolower(fread(STDIN, 1))) === 'y') {
+	if (trim(strtolower(fgets($stdIn))) === 'y') {
 		$composerConf['require'] += $value;
 	}
 }
@@ -37,5 +38,6 @@ $formatted = array();
 
 exec("echo '{$newConf}' | python -c 'import fileinput, json; print(json.dumps(json.loads(\"\".join(fileinput.input())), sort_keys=True, indent=4))'", $formatted);
 file_put_contents("{$argv[1]}/composer.json", implode("\n", $formatted));
+fclose($stdIn);
 
 ?>
