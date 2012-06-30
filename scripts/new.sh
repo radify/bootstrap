@@ -18,3 +18,6 @@ touch `pwd`/.gitignore 2> /dev/null
 
 /usr/bin/env php $DIR/scripts/init_project_files.php `pwd`
 /usr/bin/env php $DIR/scripts/init_project_repo.php `pwd`
+
+echo "Setting permissions..."
+sudo chmod -R 777 ./resources
