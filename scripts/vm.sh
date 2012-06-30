@@ -20,6 +20,7 @@ if [[ "$(which vagrant)" != "" && "$(which VBoxManage)" != "" ]]; then
 		read -rsn 1 -p "Press enter to launch the project now..." < /dev/tty
 		echo ""
 
+		vagrant destroy -f > /dev/null
 		vagrant up
 		open "http://localhost:8081"
 	fi
