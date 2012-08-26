@@ -13,7 +13,7 @@ else
 fi
 
 echo ""
-echo "Installation complete. Checking virtual machine system..."
+echo "Installation complete."
 echo ""
 
 $DIR/scripts/vm.sh $DIR
