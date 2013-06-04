@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Checking virtual machine system..."
+echo -e "\e[0;32mChecking virtual machine system...\e[0;m"
 echo ""
 
 if [[ "$(which vagrant)" != "" && "$(which VBoxManage)" != "" ]]; then
@@ -31,14 +31,5 @@ if [ "$(which vagrant)" == "" ]; then
 fi
 
 echo ""
-echo "You may start the project by running \`vagrant up\` and browsing to http://localhost:8081 (port mapping can be changed in ./Vagrantfile)."
-
-echo ""
-read -rsn 1 -p "Press enter to launch the project now..." < /dev/tty
-echo ""
-
-vagrant destroy -f > /dev/null
-vagrant up
-open "http://localhost:8081"
-
+echo -e "\e[0;32mInstallation complete.\e[0;m"
 echo ""
