@@ -1,25 +1,66 @@
 #!/bin/bash
 
-echo "Loading bootstrap resources..."
+function cur_os {
+	# Directty Check OSTYPE for OSX & Cygwin OS
+	case "$OSTYPE" in
+		darwin*) echo "osx"; return 0;;
+		cygwin*) echo "cygwin"; return 0;;
+	esac
+
+	# Make sure we have /etc/issue
+	if [[ ! -r '/etc/issue' ]]; then
+		echo "/etc/issue isn't readable."
+		exit 1
+	fi
+
+	DEB_OS=$(cat /etc/issue | sed 's/\(Ubuntu|Debian\).*/\1/')
+	if [[ $DEB_OS != "" ]]; then
+		echo "debian"
+	else
+		echo "unknown"
+	fi
+	return 0
+}
+
+echo -e "\e[0;32mLoading bootstrap resources...\e[0;m"
 git clone git@github.com:uor/bootstrap.git _bootstrap
 DIR="$(pwd)/_bootstrap"
 
 if [[ "$(/usr/bin/env git remote 2> /dev/null)" ]]; then
-	echo "Initializing existing project..."
+	echo -e "\e[0;32mInitializing existing project...\e[0;m"
 	$DIR/scripts/existing.sh $DIR
 else
-	echo "Initializing new project..."
+	echo -e "\e[0;32mInitializing new project...\e[0;m"
 	$DIR/scripts/new.sh $DIR
 fi
 
-echo ""
-echo "Installation complete."
-echo ""
+case $(cur_os) in
+	osx) $DIR/scripts/vm_osx.sh $DIR ;;
+	debian) $DIR/scripts/vm_debian.sh $DIR ;;
+	*)
+		echo -e "\e[0;31mError: unsupported $CUR_OS\e[0;m"
+		exit 1
+	;;
+esac
 
-$DIR/scripts/vm.sh $DIR
+if [[ $? == 1 ]]; then
+	exit 1
+fi
 
-echo "Cleaning up..."
+echo ""
+echo -e "Cleaning up..."
 rm -rf ./_bootstrap
 
-echo "Complete."
+echo ""
+
+echo -e "\e[0;32mYou may start the project by running \`vagrant up\` and browsing to http://localhost:8081 (port mapping can be changed in ./Vagrantfile).\e[0;m"
+
+echo ""
+read -rsn 1 -p "Press enter to launch the project now..." < /dev/tty
+echo ""
+
+vagrant destroy -f > /dev/null
+vagrant up
+open "http://localhost:8081"
+
 echo ""
