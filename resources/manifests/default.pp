@@ -15,6 +15,17 @@ exec { "/usr/bin/add-apt-repository -y ppa:ondrej/php5 && /usr/bin/apt-get updat
 	unless => "/usr/bin/apt-key list | grep '1024R/E5267A6C'"
 }
 
+exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10":
+	alias => "10gen key",
+	unless => "/usr/bin/apt-key list | grep '7F0CEB10'"
+}
+
+exec { "/bin/echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list > /dev/null && /usr/bin/apt-get update":
+	alias => "10gen source.list",
+	unless => "/usr/bin/test -f /etc/apt/sources.list.d/10gen.list",
+	require => Exec['10gen key']
+}
+
 exec { "apt-get update":
 	command => "/usr/bin/apt-get update"
 }
@@ -58,8 +69,9 @@ package { "php5-mcrypt":
 	ensure => present,
 	require => Exec['php 5.4 ppa']
 }
-package { "mongodb":
+package { "mongodb-10gen":
 	ensure => present,
+	require => Exec['10gen source.list']
 }
 
 exec {"/usr/bin/pecl install mongo":
