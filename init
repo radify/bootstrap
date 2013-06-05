@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function cur_os {
-	# Directty Check OSTYPE for OSX & Cygwin OS
+	# Directly Check OSTYPE for OSX & Cygwin OS
 	case "$OSTYPE" in
 		darwin*) echo "osx"; return 0;;
 		cygwin*) echo "cygwin"; return 0;;
@@ -24,17 +24,14 @@ function cur_os {
 
 echo -e "\e[0;32mLoading bootstrap resources...\e[0;m"
 git clone git@github.com:uor/bootstrap.git _bootstrap
+PWD="$(pwd)"
 DIR="$(pwd)/_bootstrap"
 
-if [[ "$(/usr/bin/env git remote 2> /dev/null)" ]]; then
-	echo -e "\e[0;32mInitializing existing project...\e[0;m"
-	$DIR/scripts/existing.sh $DIR
-else
-	echo -e "\e[0;32mInitializing new project...\e[0;m"
-	$DIR/scripts/new.sh $DIR
-fi
+echo -e "\e[0;32mInitializing the project...\e[0;m"
+/usr/bin/env php $DIR/scripts/init_project.php $PWD $DIR
 
-case $(cur_os) in
+CUR_OS=$(cur_os)
+case $CUR_OS in
 	osx) $DIR/scripts/vm_osx.sh $DIR ;;
 	debian) $DIR/scripts/vm_debian.sh $DIR ;;
 	*)
@@ -47,11 +44,8 @@ if [[ $? == 1 ]]; then
 	exit 1
 fi
 
-echo ""
-echo -e "Cleaning up..."
-rm -rf ./_bootstrap
-
-echo ""
+echo "Cleaning up..."
+rm -rf $DIR
 
 echo -e "\e[0;32mYou may start the project by running \`vagrant up\` and browsing to http://localhost:8081 (port mapping can be changed in ./Vagrantfile).\e[0;m"
 
