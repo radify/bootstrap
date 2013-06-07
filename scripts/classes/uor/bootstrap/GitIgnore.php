@@ -15,7 +15,7 @@ class GitIgnore {
 			throw new RuntimeException("Path `{$path}` not writeable.");
 		}
 		$this->_path = "{$path}/.gitignore";
-		$this->_lines = array_filter(array_map('trim', file($path)));
+		$this->_lines = array_filter(array_map('trim', file($this->_path)));
 	}
 
 	public function add($entries) {
