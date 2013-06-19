@@ -22,6 +22,8 @@ function cur_os {
 	return 0
 }
 
+export CLICOLOR=1
+
 echo -e "\e[0;32mLoading bootstrap resources...\e[0;m"
 git clone git@github.com:uor/bootstrap.git _bootstrap
 PWD="$(pwd)"
