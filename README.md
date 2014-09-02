@@ -27,7 +27,7 @@ Since the virtual machine used a 64-bit OS, You need to enable the `Virtualizati
 ## Installation
 
 ```
-curl -s https://raw.github.com/uor/bootstrap/master/init | bash
+curl -s https://raw.githubusercontent.com/uor/bootstrap/master/init | bash
 ```
 
 If the installation is successful, the development environment will boot automatically and a new browser window should open. Otherwise you can browse to `localhost:8081` (the port is configurable in [Vagrantfile](https://github.com/uor/oota/blob/master/Vagrantfile)).
