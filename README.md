@@ -46,7 +46,7 @@ In gross, the `init` script should be able to deal with any kind of repository.
 mkdir myproject
 cd myproject
 mkdir webroot && echo "<?php phpinfo();?>" > webroot/index.php
-curl -s https://raw.github.com/uor/bootstrap/master/init | bash
+curl -s https://raw.githubusercontent.com/uor/bootstrap/master/init | bash
 ```
 
 Once the `init` script is done, you should be able to browse `localhost:8081`.
